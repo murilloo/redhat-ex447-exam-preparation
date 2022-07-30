@@ -1,0 +1,9 @@
+control.example.com
+node1.example.com
+node2.example.com
+
+[dev]
+node1.example.com
+
+[prod]
+node2.example.com
