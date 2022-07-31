@@ -1,0 +1,31 @@
+---
+- name: install start and enable httpd
+  hosts: all
+  tasks:
+  - name: install package
+    package:
+      name: httpd
+      state: latest
+
+  - name: open firewall 
+    firewalld:
+      service: http
+      permanent: yes
+      immediate: yes
+      state: enabled
+
+  - name: start and enable service
+    service:
+      name: httpd
+      state: started
+      enabled: yes
+
+- name: test http server
+  hosts: control.example.com
+  tasks:
+    - name: test httpd service
+      uri:
+        url: "http://{{ item }}"
+      loop: "{{ groups['all'] }}"
+      register: this
+      failed_when: "'welcome' not in this.content"

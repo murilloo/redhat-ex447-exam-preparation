@@ -1,0 +1,13 @@
+- name: first play
+  hosts: node2.example.com
+  tasks:
+    - name: debug
+      debug:
+        msg: "Teste"
+
+- name: another play
+  hosts: node1.example.com
+  tasks:
+    - name: debug2
+      debug:
+        msg: "Teste 2"

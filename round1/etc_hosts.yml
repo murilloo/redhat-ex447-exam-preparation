@@ -1,0 +1,7 @@
+- name: playbook to configure /etc/hosts on the nodes
+  hosts: all
+  tasks:
+    - name: generate /etc/hosts
+      template:
+        src: ./etc_hosts.j2
+        dest: /etc/hosts
