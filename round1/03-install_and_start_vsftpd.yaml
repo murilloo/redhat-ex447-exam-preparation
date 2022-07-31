@@ -1,0 +1,28 @@
+---
+
+- name: play to install vsftpd
+  
+  hosts: nodes
+
+  gather_facts: no
+
+  tasks:
+    
+    - name: install package vfsftpd
+      yum:
+        name: vsftpd
+        state: present
+
+    - name: open firewall
+      firewalld:
+        permanent: yes
+        service: ftp
+        immediate: yes
+        state: enabled
+
+    - name: make sure service is enabled
+      service:
+        name: vsftpd
+        state: started
+        enabled: yes
+

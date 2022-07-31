@@ -8,3 +8,8 @@ node1.example.com
 
 [prod]
 node2.example.com
+
+[nodes:children]
+dev
+prod
+
