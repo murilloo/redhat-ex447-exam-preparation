@@ -2,7 +2,6 @@
  
   hosts: nodes
 
-
   vars:
     user: murillo
 
