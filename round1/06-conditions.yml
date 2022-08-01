@@ -1,0 +1,24 @@
+- name: play to create user
+ 
+  hosts: nodes
+
+
+  vars:
+    user: murillo
+
+  tasks:
+
+    - name: create user
+      command: useradd {{ user }}
+      register: create
+      ignore_errors: yes
+
+    - name: print exists
+      debug: 
+        msg: "User already exists"
+      when: "'already exists' in create.stderr"
+
+    - name: print user created
+      debug:
+        msg: "{{ user }} created"
+      when: create.rc == 0
