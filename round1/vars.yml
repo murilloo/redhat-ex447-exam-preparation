@@ -1,1 +1,10 @@
 director: Benjamin
+
+users:
+  - name: leila
+    groupname: devops
+  - name: marina
+    groupname: dev
+  - name: benjamin
+    groupname: ops
+

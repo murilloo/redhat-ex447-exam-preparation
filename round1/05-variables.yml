@@ -19,6 +19,12 @@
 
   tasks:
 
+    - name: create users
+      user: 
+        name: "{{ item.name }}"
+        state: present
+      loop: "{{ users }}"
+
     - name: print password
       debug:
         msg: "{{ password }}"
