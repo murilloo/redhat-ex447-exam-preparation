@@ -15,7 +15,7 @@
     - name: print exists
       debug: 
         msg: "User already exists"
-      when: "'already exists' in create.stderr"
+      failed_when: "'already exists' in create.stderr"
 
     - name: print user created
       debug:
