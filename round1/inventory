@@ -1,5 +1,6 @@
 [all]
 control.example.com
+tower.example.com
 node1.example.com
 node2.example.com
 
@@ -13,3 +14,5 @@ node2.example.com
 dev
 prod
 
+[tower]
+tower.example.com

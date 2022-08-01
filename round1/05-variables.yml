@@ -1,0 +1,29 @@
+---
+
+- name: run the play
+  hosts: all
+
+  vars:
+    manager: "JMLS"
+
+  vars_files: 
+    - vars.yml
+
+  tasks:
+    - name: print user
+      debug:
+        msg: "{{ name }}"
+
+    - name: print manager
+      debug:
+        msg: "{{ manager }}"
+
+    - name: print director
+      debug:
+        msg: "{{ director }}"
+ 
+    - name: print server
+      debug:
+        msg: "{{ server }}"
+
+      
