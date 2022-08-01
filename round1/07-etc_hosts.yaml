@@ -3,5 +3,5 @@
   tasks:
     - name: generate /etc/hosts
       template:
-        src: ./02-etc_hosts.j2
-        dest: /etc/hosts
+        src: ./07-etc_hosts.j2
+        dest: /etc/hosts2
