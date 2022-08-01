@@ -1,0 +1,40 @@
+- name: run lessson seven
+  hosts: all
+
+  tasks:
+    - name: install vsftpd into the nodes
+      dnf:
+        name: vsftpd
+        state: latest
+    - name: download config file
+      fetch:
+        src: /etc/vsftpd/vsftpd.conf
+        dest: /tmp/vsftpd.j2
+        flat: yes
+
+- name: work with config file
+  hosts: localhost
+  tasks:
+    - name: add line to file 
+      lineinfile:
+        path: /tmp/vsftpd.j2
+        line: '# Written on {{ ansible_hostname }}'
+        create: yes
+
+- name: finish the play
+  hosts: all
+  tasks:
+    - name: generate template
+      template:
+        src: /tmp/vsftpd.j2
+        dest: /etc/vsftpd/vsftpd.conf
+    - name: start vsftpd
+      service:
+        name: vsftpd
+        state: started
+        enabled: yes
+    - name: open firewall
+      firewalld:
+        service: ftp
+        immediate: yes
+        state: enabled
