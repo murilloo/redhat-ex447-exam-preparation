@@ -6,10 +6,32 @@
   vars:
     manager: "JMLS"
 
+    password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          31653566663131653738303465303239393366313961653761373039383936333664376461663938
+          6431623031316334316261333662313263323464626437370a393463313838346636373732373762
+          39653539613861393661663232323637383933326639353764633564346565313865643737316361
+          3963643664633032360a653264323935663539323435323737643262303961356166396132323531
+          63313637613531303739383031653834613266376561626438366236383836356464
+
   vars_files: 
     - vars.yml
 
   tasks:
+
+    - name: print password
+      debug:
+        msg: "{{ password }}"
+
+    - name: check os release
+      command: cat /etc/os-release
+      register: release
+      changed_when: False
+
+    - name: print release
+      debug:
+        var: release
+
     - name: print user
       debug:
         msg: "{{ name }}"
