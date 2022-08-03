@@ -1,0 +1,25 @@
+---
+- name: play role ansible galaxy
+  hosts: nodes
+
+  pre_tasks:
+    - block:
+        - name: gather package info
+          package_facts: 
+            manager: auto
+
+        - name: remove httpd
+          yum:
+            name: httpd
+            state: absent
+          when: "'httpd' in ansible_facts.packages"
+  
+  roles:
+    -  geerlingguy.nginx
+
+  post_tasks:
+
+    - name: clean up yum cache
+      command: yum clean all
+      args:
+        warn: no
