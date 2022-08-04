@@ -1,5 +1,6 @@
 ---
 - name: play role ansible galaxy
+
   hosts: nodes
 
   pre_tasks:
