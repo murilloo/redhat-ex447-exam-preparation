@@ -1,0 +1,29 @@
+---
+- name: setup firewall with default values
+
+  hosts: nodes
+
+  vars:
+  - firewall_rules:
+    - service: http
+    - service: ftp
+      state: disabled
+
+  tasks:
+
+    - name: enable firewalld services
+      firewalld:
+        service: "{{ item.service }}"
+        zone: "{{ item.zone | default('home') }}"
+        permanent: yes
+        state: "{{ item.state | default('enabled') }}"
+      loop: "{{ firewall_rules }}"
+      when: item.service is defined
+      notify: reload firewall
+
+  handlers:
+
+    - name: reload firewall
+      service:
+        name: firewalld
+        state: reloaded

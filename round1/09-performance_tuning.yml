@@ -1,0 +1,21 @@
+---
+- name: secure sudo
+  
+  hosts: node1.example.com
+
+  tasks:
+    - name: remove insecure /etc/sudoers.d/ansible
+      file:
+        name: /etc/sudoers.d/ansible
+        state: absent
+
+    - name: create new /etc/sudoers
+      copy:
+        content: 'ansible ALL=(ALL) ALL'
+        dest: /etc/sudoers.d/ansible
+
+    - name: tuning /etc/sudoers.d
+      lineinfile:
+        line: 'Defaults timestamp_type=global, timestamp_timeout=120, !requiretty'
+        name: /etc/sudoers.d
+        validate: /usr/sbin/visudo -cf %s

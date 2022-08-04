@@ -24,3 +24,4 @@
       command: yum clean all
       args:
         warn: no
+      when: ansible_os_family == 'RedHat'

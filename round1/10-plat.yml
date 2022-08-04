@@ -1,0 +1,18 @@
+---
+- hosts: localhost
+  become: no
+  vars:
+    whatever:
+    - province: drenthe
+      cities:
+      - assen
+      - emmen
+    - province: limburg
+      cities:
+      - heerlen
+      - maastricht
+  tasks:
+  - name: produce a flat list from a nested structure
+    debug:
+      msg: "{{ item }}"
+    loop: "{{ whatever | map(attribute='cities') | flatten }}"
