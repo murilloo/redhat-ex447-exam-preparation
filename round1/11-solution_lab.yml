@@ -1,0 +1,45 @@
+---
+- name: play to test fact cache
+
+  hosts: nodes
+  
+  gather_facts: no
+
+  pre_tasks:
+
+    - name: gather package facts
+      package_facts:
+        manager: "auto"
+
+    - name: check if package is installed
+      when: "'redis' not in ansible_facts.packages"
+      block:
+
+        - name: make sure pip is installed
+          yum:
+            name: "python2-pip, python3-pip"
+            state: present
+
+        - name: make sure redis is installed
+          yum:
+            name: redis
+            state: present
+
+        - name: make sure redis is running
+          service:
+            name: redis
+            state: started
+
+        - name: make sure redis python libs are installed
+          pip:
+            name: redis
+
+  tasks:
+
+    - name: gathering facts
+      setup:
+      register: fact
+
+    - name: print fact
+      debug:
+        var: fact
