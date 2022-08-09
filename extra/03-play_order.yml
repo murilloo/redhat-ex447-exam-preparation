@@ -5,6 +5,7 @@
   pre_tasks:
 
     - block:
+
       - name: ensure httpd is installed
         yum:
           name: httpd
@@ -15,6 +16,10 @@
       - name: print
         debug:
           var: httpd_install
+
+      tags:
+        - installhttpd
+
 
   roles:
     - web
