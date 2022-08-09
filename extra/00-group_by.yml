@@ -1,0 +1,15 @@
+---
+- name: playbook to generate dynamic inventory
+  hosts: all
+  tasks:
+
+    - name: group by arch
+      group_by:
+        key: arch_{{ ansible_facts['architecture'] }}
+
+- name: run the play against new inventory
+  hosts: arch_x86_64
+  tasks:
+    - name: print server name
+      debug:
+        msg: "{{ ansible_hostname }}"

@@ -1,0 +1,43 @@
+---
+- name: check web server availability
+  hosts: all
+
+  tasks:
+
+    - name: group by arch
+      group_by:
+        key: arch_{{ ansible_facts['architecture'] }}
+
+    - name: make sure apache is started
+      service:
+        name: httpd
+        state: started
+      ignore_errors: yes
+      when: "'tower' not in group_names"
+
+
+- name: check if webserver only on x86_64
+  hosts: arch_x86_64
+  tasks:
+
+    - block:
+        - name: check if webserver is running
+          uri:
+            url: http://{{ ansible_fqdn }}
+            return_content: yes
+          register: webpage
+          failed_when: webpage.status != 403
+          when: "'tower' not in group_names"
+
+      rescue:
+        - name: make sure apache is present
+          yum:
+            name: httpd
+            state: present
+
+        - name: make sure apache is started
+          service:
+            name: httpd
+            state: restarted
+      
+

@@ -1,0 +1,12 @@
+all:
+  children:
+    backend_server_pool:
+      hosts:
+        node1.example.com:
+    lb_servers:
+      hosts:
+        lb.example.com:
+          ansible_host: control.example.com
+    web_servers:
+      hosts:
+        node2.example.com:
