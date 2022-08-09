@@ -2,12 +2,21 @@
 - name: test variable types
   hosts: localhost
   become: no
+
+  vars_prompt:
+    - name: prompt
+      prompt: enter the name of the var
+      private: no
+      
   vars:
   - car: mercedes
   - number: 10
   - sunny: True
   - rainy: true
   tasks:
+  - name: print input var
+    debug:
+      msg: "{{ prompt }}"
   - name: testing string
     debug:
       msg: car is a string
