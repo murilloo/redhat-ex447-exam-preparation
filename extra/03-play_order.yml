@@ -43,6 +43,8 @@
       register: this
       failed_when: "'welcome' not in this.content"
       delegate_to: node1.example.com
+      tags:
+        - testhttpd
   
 
   handlers:

@@ -7,6 +7,11 @@
   debug:
     msg: "{{ ansible_hostname }}"
 
+- name: ensure SELinux allows httpd connections to a remote database
+  seboolean:
+    name: httpd_can_network_connect_db
+    state: true
+    persistent: true
 
 - name: ensure httpd is up
   service:
