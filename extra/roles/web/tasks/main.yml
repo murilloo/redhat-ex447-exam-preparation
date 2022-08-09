@@ -1,0 +1,19 @@
+---
+# tasks file for web
+
+
+
+- name: print the server
+  debug:
+    msg: "{{ ansible_hostname }}"
+
+
+- name: ensure httpd is up
+  service:
+    name: httpd
+    state: started
+
+- name: ensure firewall is added
+  firewalld:
+    service: http
+    state: enabled

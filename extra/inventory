@@ -1,6 +1,5 @@
 [all]
 control.example.com
-tower.example.com
 node1.example.com
 node2.example.com
 
@@ -13,6 +12,3 @@ node2.example.com
 [nodes:children]
 dev
 prod
-
-[tower]
-tower.example.com

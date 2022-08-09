@@ -1,0 +1,49 @@
+---
+- name: play tasks execution orders
+  hosts: all
+
+  pre_tasks:
+
+    - block:
+      - name: ensure httpd is installed
+        yum:
+          name: httpd
+          state: present
+        register: httpd_install
+        notify: start httpd
+
+      - name: print
+        debug:
+          var: httpd_install
+
+  roles:
+    - web
+
+  tasks:
+    - name: get package facts
+      package_facts:
+        manager: auto
+
+    - name: verifies if httpd is installed
+      debug:
+        msg: "Apache is installed!!"
+      when: "'httpd' in ansible_facts.packages"
+
+  post_tasks:
+
+    - name: test http endpoint
+      uri:
+        url: "http://{{ ansible_hostname }}"
+        return_content: yes
+      register: this
+      failed_when: "'welcome' not in this.content"
+      delegate_to: node1.example.com
+  
+
+  handlers:
+    - name: start httpd
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+
