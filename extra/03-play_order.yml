@@ -3,9 +3,7 @@
   hosts: all
 
   pre_tasks:
-
     - block:
-
       - name: ensure httpd is installed
         yum:
           name: httpd
@@ -19,7 +17,6 @@
 
       tags:
         - installhttpd
-
 
   roles:
     - web
@@ -35,7 +32,6 @@
       when: "'httpd' in ansible_facts.packages"
 
   post_tasks:
-
     - name: test http endpoint
       uri:
         url: "http://{{ ansible_hostname }}"
@@ -46,7 +42,6 @@
       tags:
         - testhttpd
   
-
   handlers:
     - name: start httpd
       service:
