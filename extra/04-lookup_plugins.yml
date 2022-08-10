@@ -1,0 +1,27 @@
+---
+- name: play to run lookup
+  hosts: all
+
+
+  vars:
+    etc_hosts: "{{ query('file', '/etc/hosts') }}"
+    node_env_host: "{{ lookup('env', 'HOSTNAME') }}"
+    ls_command: "{{ lookup('pipe', 'ls -lrt /etc/issue') }}"
+
+  tasks:
+
+    - name: loop and print each line of the var
+      debug:
+        msg: "{{ item }}"
+      loop: "{{ etc_hosts }}"
+     
+    - name: print HOSTNAME variable
+      debug:
+        var: node_env_host
+
+
+    - name: print ls command
+      debug:
+        var: ls_command
+
+

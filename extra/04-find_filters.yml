@@ -1,0 +1,23 @@
+---
+- name: playbook to test find
+  hosts: control.example.com
+  tasks:
+
+    - name: run find
+      find:
+        path: /home/ansible/
+        patterns: '*.cfg'
+        recurse: yes
+      register: find
+
+    - name: print var
+      debug:
+        msg: "{{ find['files'] | map(attribute='path') | list }}"
+
+    - name: print devices links
+      debug:
+        msg: "{{ ansible_device_links['ids'] }}"
+
+    - name: print mount points
+      debug:
+        msg: "{{ ansible_devices['vda']['partitions'] | map(attribute='holders') | list }}"
