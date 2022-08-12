@@ -5,3 +5,9 @@
     - name: print
       debug:
         msg: "{{ inventory_hostname }}"
+    - name: print group_vars
+      debug:
+        msg: "{{ webapp_version_groupvars }}"
+    - name: print group_vars test
+      debug:
+        msg: "{{ webapp_version_test }}"

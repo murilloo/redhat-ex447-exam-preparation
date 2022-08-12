@@ -4,7 +4,7 @@
     - name: create remote user
       
       vars:
-        password: "{{ lookup('password', 'credentials/' + item) }}"
+        password: "{{ lookup('password', 'credentials/' + item + ' length=9') }}"
 
       user:
         name: "{{ item }}"
