@@ -1,0 +1,8 @@
+---
+- name: run template
+  hosts: all
+
+  tasks:
+    - name: print template
+      debug:
+        msg: "{{ lookup('template', 'template.j2') }}"
