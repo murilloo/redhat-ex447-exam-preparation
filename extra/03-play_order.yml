@@ -18,8 +18,11 @@
       tags:
         - installhttpd
 
-  roles:
-    - web
+      become: true
+
+  roles: 
+    - role: web
+      become: true
 
   tasks:
     - name: get package facts
