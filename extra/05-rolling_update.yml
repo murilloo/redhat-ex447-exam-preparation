@@ -1,0 +1,9 @@
+---
+- name: play to rolling update
+  hosts: nodes
+  serial: 50%
+
+  tasks:
+    - name: print server
+      debug: 
+        msg: "{{ ansible_hostname }}"

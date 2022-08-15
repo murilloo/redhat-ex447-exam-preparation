@@ -1,0 +1,19 @@
+---
+- name: play to run delegate
+  hosts: node1.example.com
+  tasks:
+
+    - name: get system info
+      command: uname -a
+      register: server
+    - name: display server
+      debug:
+        var: server
+
+    - name: get system info
+      command: uname -a
+      register: local
+      delegate_to: node2.example.com
+    - name: print local
+      debug:
+        var: local
