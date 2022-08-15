@@ -2,6 +2,7 @@
 - name: play to run lookup
   hosts: all
 
+  become: true
 
   vars:
     etc_hosts: "{{ query('file', '/etc/hosts') }}"
@@ -12,16 +13,18 @@
 
     - name: loop and print each line of the var
       debug:
-        msg: "{{ item }}"
-      loop: "{{ etc_hosts }}"
-     
+        msg: "{{ item[0] }}"
+      loop: "{{ query('lines','cat /etc/hosts') }}"
+
     - name: print HOSTNAME variable
       debug:
         var: node_env_host
-
 
     - name: print ls command
       debug:
         var: ls_command
 
-
+    - name: list files
+      debug:
+        msg: "{{ item }}"
+      loop: "{{ query('fileglob', '~/.*') }}"
