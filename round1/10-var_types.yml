@@ -13,6 +13,7 @@
   - number: 10
   - sunny: True
   - rainy: true
+
   tasks:
   - name: print input var
     debug:
