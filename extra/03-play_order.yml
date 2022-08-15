@@ -37,13 +37,14 @@
   post_tasks:
     - name: test http endpoint
       uri:
-        url: "http://{{ ansible_hostname }}"
+        url: "http://{{ item }}"
         return_content: yes
       register: this
       failed_when: "'welcome' not in this.content"
       delegate_to: node1.example.com
       tags:
         - testhttpd
+      loop: "{{ groups['nodes'] }}"
   
   handlers:
     - name: start httpd

@@ -1,18 +1,36 @@
 ---
 - name: exploring network plugins and filters
   hosts: all
+
   vars:
     addresses:
     - 1.2.3.4/24
     - 10.0.0.0/8
     net_mask: "{{ ansible_default_ipv4.network }}/{{ ansible_default_ipv4.netmask }}"
+
   tasks:
+
+  - name: install python
+    when: inventory_hostname == 'control.example.com'
+    block:
+      - name: get packages
+        package_facts:
+          manager: auto
+      - name: make sure packages are installed
+        yum:
+          name:
+            - python3-netaddr
+            - python3-dns
+        when: "'python3-netaddr' not in ansible_facts.packages"
+
   - name: print IP address
     debug:
       msg: the IP address is {{ ansible_facts['default_ipv4'] }}
+
   - name: show if this is a valid IP address
     debug:
       msg: "{{ ansible_facts['default_ipv4']['address'] | ipaddr }}"
+
   - name: ths happens if the variable does not contain a valid IP address
     debug:
       msg: "{{ ansible_facts['default_ipv4'] | ipaddr }}"

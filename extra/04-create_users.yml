@@ -11,3 +11,15 @@
         password: "{{ password | password_hash('sha256') }}"
         update_password: on_create
       loop: "{{ query('lines', 'cat users.txt') }}"
+
+
+- name: another play to ensure users exists in control node
+  hosts: localhost
+  vars:
+    users: "{{ query('lines','cat users.txt') }}"
+
+  tasks:
+    - name: ensure users exists in control node
+      user:
+        name: "{{ item }}"
+      loop: "{{ users }}"

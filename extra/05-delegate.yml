@@ -1,7 +1,18 @@
 ---
 - name: play to run delegate
-  hosts: node1.example.com
+  hosts: localhost
+  gather_facts: false
   tasks:
+
+    - name: set fact for node1
+      set_fact:
+        target_user: murillo
+      delegate_to: node1.example.com
+      delegate_facts: true
+
+    - name: print fact on node1
+      debug:
+        msg: "{{ hostvars['node1.example.com']['target_user'] }}"
 
     - name: get system info
       command: uname -a
@@ -17,3 +28,6 @@
     - name: print local
       debug:
         var: local
+
+
+
