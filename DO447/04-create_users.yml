@@ -1,0 +1,37 @@
+- name: create users from a file with hash
+  hosts: all 
+
+  vars_files:
+  - users.yml
+
+  tasks:
+    - name: create remote user
+      vars:
+        password: "{{ lookup('password', 'password-' + item.name + ' length=6') }}"
+        hash: "{{ lookup('vars', password) }}"
+      user:
+        name: "{{ item.name }}"
+        password: "{{ password | password_hash('sha512','myrandomsalt') }}"
+        comment: "{{ item.first | capitalize }} {{ item.middle | capitalize }} {{ item.last | capitalize }}"
+#        update_password: on_create
+      loop: "{{ users }}"
+#      loop: "{{ query('lines', 'cat users.txt') }}"
+
+    - name: read password from file and write hash/salt
+      vars:
+        file_content: "{{ lookup('file', 'password-' + item.name) }}"
+      lineinfile:
+        path: "password-{{ item.name }}"
+        line: "{{ file_content | password_hash('sha512','myrandomsalt') }}"
+      loop: "{{ users }}"
+      delegate_to: localhost
+
+#    - name: debug
+#      debug:
+#        msg: "{{ this['results'] | map(attribute='password') | flatten }}" 
+
+#    - name: ensure users exists in control node
+#      user:
+#        name: "{{ item.name }}"
+#      loop: "{{ users }}"
+#      delegate_to: localhost

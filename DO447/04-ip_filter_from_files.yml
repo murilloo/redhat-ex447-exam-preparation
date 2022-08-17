@@ -1,0 +1,15 @@
+---
+- name: test play
+  hosts: localhost
+  gather_facts: no
+
+  vars_files:
+  - files.yml
+
+  tasks:
+   
+    - name: get ip's from lines from files
+      vars:
+        line: "{{ lookup('lines', 'cat ' + item) | regex_replace(',',' ') }}"
+      shell: echo "{{ line.split(' ') | ipaddr  }}" >> /tmp/{{ item }}.ip
+      loop: "{{ files }}"

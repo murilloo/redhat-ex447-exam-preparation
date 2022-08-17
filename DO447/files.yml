@@ -1,0 +1,4 @@
+files:
+  - net-hosts
+  - net-motd
+  - net-blob

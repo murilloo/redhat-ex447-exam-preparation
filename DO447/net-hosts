@@ -1,0 +1,4 @@
+192.168.122.139 control.example.com control
+192.168.122.247 node1.example.com node1
+192.168.122.59 node2.example.com node2
+192.168.122.46 tower.example.com tower
