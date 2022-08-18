@@ -1,0 +1,28 @@
+---
+- name: play to verify cgroup is working\
+  hosts: localhost
+  tasks:
+    - block:
+
+      - name: install required software
+        become: yes
+        yum:
+          name: libcgroup-tools
+          state: latest
+
+      - name: make sure ansible cfg has cgroup config
+        lineinfile:
+          path: ./ansible.cfg
+          insertafter: 'defaults'
+          line: callback_whitelist=cgroup_perf_recap
+
+      - name: make sure cgroup options are there
+        blockinfile:
+          path: ./ansible.cfg
+          block: |
+            [callback_cgroup_perf_recap]
+            control_group=ansible_profile
+
+      - name: create the dedicated cgroup
+        become: yes
+        shell: cgcreate -a ansible:ansible -t ansible:ansible -g cpuacct,memory,pids:ansible_profile

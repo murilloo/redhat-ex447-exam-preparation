@@ -1,0 +1,8 @@
+---
+- name: play to install nmap
+  hosts: all
+  tasks:
+    - name: install
+      yum:
+        name: nmap
+        state: present
