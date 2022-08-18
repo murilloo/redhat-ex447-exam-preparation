@@ -1,13 +1,11 @@
 #!/bin/bash
 
-# Vars
+# Credentials 
 user=admin
 pass=password
-url="https://tower.example.com"
-api="/api/v2/job_templates/"
-job="vaulted"
-action="/launch/"
- 
-echo "Calling Ansible Tower API \n"
 
-curl -X POST --user $user:$pass $url$api$job$action -ks
+# Get Job ID based on the name
+id=`curl -X GET --user admin:password https://tower.example.com/api/v2/workflow_job_templates/ -ks | jq '.results | .[] | select(.name=="your-workflow") | .id'`
+
+# Calling API
+curl -X POST --user $user:$pass https://tower.example.com/api/v2/workflow_job_templates/$id/launch/ -ks 2&> /dev/null
